@@ -1,7 +1,9 @@
-# Import necessary libraries
 import streamlit as st
 import os
 from together import Together
+from PyPDF2 import PdfReader
+import requests
+from youtube_transcript_api import YouTubeTranscriptApi
 
 # Set up the API key for Together
 os.environ['TOGETHER_API_KEY'] = st.secrets["TOGETHER_API_KEY"]
@@ -41,10 +43,74 @@ def answer_travel_question(description):
     except Exception as e:
         return f"Error with Together AI: {e}"
 
+# Function to summarize text from PDF
+def summarize_pdf(uploaded_file):
+    """
+    Summarize the content of the uploaded PDF file.
+    
+    Parameters:
+    uploaded_file (UploadedFile): The PDF file uploaded by the user.
+    
+    Returns:
+    str: The summarized content from the PDF file.
+    """
+    try:
+        # Read the PDF
+        reader = PdfReader(uploaded_file)
+        text = ""
+        for page in reader.pages:
+            text += page.extract_text()
+        
+        # Generate summary using Together API
+        prompt = f"Summarize the following text:\n\n{text}\n\nSummary:"
+        
+        response = client.chat.completions.create(
+            model="codellama/CodeLlama-34b-Instruct-hf",  # Change to a model that handles summarization
+            messages=[{"role": "user", "content": prompt}]
+        )
+
+        summary = response.choices[0].message.content.strip()
+        return summary
+
+    except Exception as e:
+        return f"Error with PDF processing: {e}"
+
+# Function to summarize YouTube video based on its transcript
+def summarize_youtube_link(link):
+    """
+    Summarize the transcript of a YouTube video given its URL.
+    
+    Parameters:
+    link (str): The URL of the YouTube video.
+    
+    Returns:
+    str: The summarized content of the YouTube video.
+    """
+    try:
+        # Extract video ID from YouTube URL
+        video_id = link.split("v=")[-1]
+        
+        # Get transcript of the YouTube video
+        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+        transcript_text = " ".join([entry['text'] for entry in transcript])
+        
+        # Generate summary using Together API
+        prompt = f"Summarize the following YouTube transcript:\n\n{transcript_text}\n\nSummary:"
+        
+        response = client.chat.completions.create(
+            model="codellama/CodeLlama-34b-Instruct-hf",  # Change to a model that handles summarization
+            messages=[{"role": "user", "content": prompt}]
+        )
+
+        summary = response.choices[0].message.content.strip()
+        return summary
+
+    except Exception as e:
+        return f"Error with YouTube processing: {e}"
 
 # Streamlit app layout
 st.title("Travel Expert: Ask Your Travel Questions!")
-st.write("Enter your travel-related question, and I will provide an answer.")
+st.write("Enter your travel-related question, upload a PDF for summarization, or provide a YouTube link for summarization.")
 
 # Input box for the user to enter a travel question or description
 description = st.text_area("Your Travel Question or Description", placeholder="Describe your travel question or request")
@@ -58,3 +124,19 @@ if st.button("Get Travel Answer"):
         st.write(travel_answer)
     else:
         st.error("Please provide a valid travel-related description or question.")
+
+# PDF file upload section
+uploaded_pdf = st.file_uploader("Upload a PDF for summarization", type="pdf")
+
+if uploaded_pdf:
+    st.write("### PDF Summary")
+    summary_pdf = summarize_pdf(uploaded_pdf)
+    st.write(summary_pdf)
+
+# YouTube link input section
+youtube_link = st.text_input("Enter YouTube link to summarize")
+
+if youtube_link:
+    st.write("### YouTube Video Summary")
+    summary_youtube = summarize_youtube_link(youtube_link)
+    st.write(summary_youtube)
