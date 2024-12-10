@@ -109,35 +109,48 @@ def summarize_youtube_link(link):
         return f"Error with YouTube processing: {e}"
 
 # Streamlit app layout
-st.image("https://github.com/mrobleto/DataMiningFinalProject/raw/main/stockpic.jpg", width=250) # Add your logo URL here
-st.title("Ursula's & Marisabel's Your Travel Experts: All You Need to Know!")
-st.write("Enter your travel-related question, upload a PDF for summarization, or provide a YouTube link for summarization.")
+st.set_page_config(layout="wide")  # Optional for wider layout
 
-# Input box for the user to enter a travel question or description
-description = st.text_area("Your Travel Question or Description and click 'Get Travel Answer' below", placeholder="Describe your travel question or request")
+# Create columns for layout
+col1, col2 = st.columns([1, 4])  # Adjust column ratios as needed
 
-# Button to trigger travel query processing
-if st.button("Get Travel Answer"):
-    if description.strip():
-        st.write("### Travel Answer")
-        # Get the travel-related answer
-        travel_answer = answer_travel_question(description)
-        st.write(travel_answer)
-    else:
-        st.error("Please provide a valid travel-related description or question.")
+# Add the logo in the first column
+with col1:
+    st.image("https://github.com/mrobleto/DataMiningFinalProject/raw/main/stockpic.jpg", width=200)
 
-# PDF file upload section
-uploaded_pdf = st.file_uploader("Upload a PDF for summarization", type="pdf")
+# Add main app content in the second column
+with col2:
+    st.title("Ursula's & Marisabel's Your Travel Experts: All You Need to Know!")
+    st.write("Enter your travel-related question, upload a PDF for summarization, or provide a YouTube link for summarization.")
+# st.image("https://github.com/mrobleto/DataMiningFinalProject/raw/main/stockpic.jpg", width=250) # Add your logo URL here
+# st.title("Ursula's & Marisabel's Your Travel Experts: All You Need to Know!")
+# st.write("Enter your travel-related question, upload a PDF for summarization, or provide a YouTube link for summarization.")
 
-if uploaded_pdf:
-    st.write("### PDF Summary")
-    summary_pdf = summarize_pdf(uploaded_pdf)
-    st.write(summary_pdf)
+    # Input box for the user to enter a travel question or description
+    description = st.text_area("Your Travel Question or Description and click 'Get Travel Answer' below", placeholder="Describe your travel question or request")
 
-# YouTube link input section
-youtube_link = st.text_input("Enter YouTube link to summarize")
+    # Button to trigger travel query processing
+    if st.button("Get Travel Answer"):
+        if description.strip():
+            st.write("### Travel Answer")
+            # Get the travel-related answer
+            travel_answer = answer_travel_question(description)
+            st.write(travel_answer)
+        else:
+            st.error("Please provide a valid travel-related description or question.")
 
-if youtube_link:
-    st.write("### YouTube Video Summary")
-    summary_youtube = summarize_youtube_link(youtube_link)
-    st.write(summary_youtube)
+    # PDF file upload section
+    uploaded_pdf = st.file_uploader("Upload a PDF for summarization", type="pdf")
+    
+    if uploaded_pdf:
+        st.write("### PDF Summary")
+        summary_pdf = summarize_pdf(uploaded_pdf)
+        st.write(summary_pdf)
+    
+    # YouTube link input section
+    youtube_link = st.text_input("Enter YouTube link to summarize")
+    
+    if youtube_link:
+        st.write("### YouTube Video Summary")
+        summary_youtube = summarize_youtube_link(youtube_link)
+        st.write(summary_youtube)
