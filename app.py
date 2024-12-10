@@ -109,7 +109,7 @@ def summarize_youtube_link(link):
         return f"Error with YouTube processing: {e}"
 
 # Streamlit app layout
-st.image("https://your-logo-url.com/logo.png", width=150)  # Add your logo URL here
+st.image("https://sl.bing.net/fvs0xN5Lx7s", width=150)  # Add your logo URL here
 st.title("Ursula's & Marisabel's Your Travel Experts: All You Need to Know!")
 st.write("Enter your travel-related question, upload a PDF for summarization, or provide a YouTube link for summarization.")
 
