@@ -1,4 +1,3 @@
-
 import streamlit as st
 from PyPDF2 import PdfReader
 from youtube_transcript_api import YouTubeTranscriptApi
@@ -8,29 +7,11 @@ from transformers import pipeline
 summarizer = pipeline("summarization", model="google/flan-t5-large")
 qa_pipeline = pipeline("question-answering", model="google/flan-t5-large")
 
-# Predefined YouTube videos
-DEFAULT_VIDEO_URLS = [
-    "https://www.youtube.com/watch?v=pfdb6u4HDoQ",
-    "https://www.youtube.com/watch?v=7lvXbfNBIQg"
-]
-
-# Path to the predefined PDF
-DEFAULT_PDF_PATH = "swiss1.pdf"
-
 # Function to extract text from PDFs
 def extract_text_from_pdfs(uploaded_files):
     content = ""
     for uploaded_file in uploaded_files:
         pdf_reader = PdfReader(uploaded_file)
-        for page in pdf_reader.pages:
-            content += page.extract_text()
-    return content
-
-# Function to extract text from a single predefined PDF
-def extract_text_from_default_pdf():
-    content = ""
-    with open(DEFAULT_PDF_PATH, "rb") as default_pdf:
-        pdf_reader = PdfReader(default_pdf)
         for page in pdf_reader.pages:
             content += page.extract_text()
     return content
@@ -59,28 +40,28 @@ def answer_query(content, query):
 st.title("Europe Travel Itinerary Guide with Hugging Face Transformers")
 
 # Upload PDFs
-st.sidebar.header("Upload Additional Files")
+st.sidebar.header("Upload PDF Travel Guides")
 uploaded_files = st.sidebar.file_uploader("Upload PDF travel guides", accept_multiple_files=True)
 
 # Input YouTube video URLs
 st.sidebar.header("YouTube Videos")
 user_video_urls = st.sidebar.text_area("Enter YouTube URLs (one per line)").splitlines()
 
-# Add default videos to the list of URLs
-video_urls = DEFAULT_VIDEO_URLS + user_video_urls
+# Combine all content (uploaded PDFs and YouTube transcripts)
+combined_content = ""
 
-# Query Box
+# Extract content from user-uploaded PDFs
+if uploaded_files:
+    uploaded_pdf_content = extract_text_from_pdfs(uploaded_files)
+    combined_content += uploaded_pdf_content
+
+# Extract content from YouTube videos if URLs are provided
+if user_video_urls:
+    youtube_content = extract_youtube_transcript(user_video_urls)
+    combined_content += youtube_content
+
+# Query Box for the user to ask a question
 query = st.text_input("Ask a question about your Europe trip:")
-
-# Extract content from default and user-uploaded PDFs
-default_pdf_content = extract_text_from_default_pdf()
-uploaded_pdf_content = extract_text_from_pdfs(uploaded_files) if uploaded_files else ""
-
-# Extract content from YouTube videos
-youtube_content = extract_youtube_transcript(video_urls) if video_urls else ""
-
-# Combine all content
-combined_content = default_pdf_content + uploaded_pdf_content + youtube_content
 
 # Summarize content
 if combined_content:
