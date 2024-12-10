@@ -15,7 +15,7 @@ DEFAULT_VIDEO_URLS = [
 ]
 
 # Path to the predefined PDF
-DEFAULT_PDF_PATH = "/content/swiss1.pdf"
+DEFAULT_PDF_PATH = "swiss1.pdf"
 
 # Function to extract text from PDFs
 def extract_text_from_pdfs(uploaded_files):
