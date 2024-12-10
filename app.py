@@ -30,7 +30,7 @@ def answer_travel_question(description):
 
         # Call Together AI to generate a response based on the travel question
         response = client.chat.completions.create(
-            model="together/TravelExpertModel",  # Change to a model that can handle travel queries
+            model="codellama/CodeLlama-34b-Instruct-hf",  # Change to a model that can handle travel queries
             messages=[{"role": "user", "content": prompt}]
         )
 
