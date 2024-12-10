@@ -109,7 +109,7 @@ def summarize_youtube_link(link):
         return f"Error with YouTube processing: {e}"
 
 # Streamlit app layout
-st.title("Travel Expert: Ask Your Travel Questions!")
+st.title("Ursula's & Marisabel's Your Travel Experts: All You Need to Know!")
 st.write("Enter your travel-related question, upload a PDF for summarization, or provide a YouTube link for summarization.")
 
 # Input box for the user to enter a travel question or description
