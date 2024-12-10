@@ -113,7 +113,7 @@ st.title("Travel Expert: Ask Your Travel Questions!")
 st.write("Enter your travel-related question, upload a PDF for summarization, or provide a YouTube link for summarization.")
 
 # Input box for the user to enter a travel question or description
-description = st.text_area("Your Travel Question or Description", placeholder="Describe your travel question or request")
+description = st.text_area("Your Travel Question or Description and click 'Get Travel Answer' below", placeholder="Describe your travel question or request")
 
 # Button to trigger travel query processing
 if st.button("Get Travel Answer"):
