@@ -1,4 +1,5 @@
-streamlit 
+streamlit
+together
 PyPDF2 
 torch
 transformers 
