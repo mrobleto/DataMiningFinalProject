@@ -1,4 +1,5 @@
 streamlit 
 PyPDF2 
+torch
 transformers 
 youtube-transcript-api
