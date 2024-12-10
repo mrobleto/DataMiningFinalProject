@@ -1,6 +1,7 @@
 import streamlit as st
 from PyPDF2 import PdfReader
 from youtube_transcript_api import YouTubeTranscriptApi
+import re
 from transformers import pipeline
 
 # Configure Hugging Face Summarization and Q&A Pipelines
@@ -16,16 +17,29 @@ def extract_text_from_pdfs(uploaded_files):
             content += page.extract_text()
     return content
 
+# Function to validate YouTube URLs and extract video ID
+def extract_youtube_video_id(url):
+    # Regex to match valid YouTube video URLs
+    youtube_regex = r"(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|\S+)?(?:v=|e\/\S+\/|\S+\/v\/|\S+\/e\/\S+\/|\S+\/\S+\/?))([A-Za-z0-9_-]{11})"
+    match = re.match(youtube_regex, url)
+    if match:
+        return match.group(1)
+    else:
+        return None
+
 # Function to extract captions from YouTube videos
 def extract_youtube_transcript(video_urls):
     content = ""
     for video_url in video_urls:
-        video_id = video_url.split("v=")[-1]
-        try:
-            transcript = YouTubeTranscriptApi.get_transcript(video_id)
-            content += " ".join([entry["text"] for entry in transcript])
-        except Exception as e:
-            st.error(f"Error fetching transcript for {video_url}: {e}")
+        video_id = extract_youtube_video_id(video_url)
+        if video_id:
+            try:
+                transcript = YouTubeTranscriptApi.get_transcript(video_id)
+                content += " ".join([entry["text"] for entry in transcript])
+            except Exception as e:
+                st.error(f"Error fetching transcript for {video_url}: {e}")
+        else:
+            st.error(f"Invalid YouTube URL: {video_url}")
     return content
 
 # Summarize content using Hugging Face
