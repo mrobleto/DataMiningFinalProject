@@ -122,15 +122,14 @@ with col1:
 with col2:
     # Use HTML and Markdown for custom styling
     st.markdown(
-    "<h1 style='color:#38c39f;'>Ursula & Marisabel Your Travel Experts: All You Need to Know!</h1>",
+    "<h1 style='color:#e8f3f1;'>Ursula & Marisabel Your Travel Experts: All You Need to Know!</h1>",
     unsafe_allow_html=True
 )
     # st.title("Ursula & Marisabel Your Travel Experts: All You Need to Know!")
     st.write("Enter your travel-related question, upload a PDF for summarization, or provide a YouTube link for summarization.")
 
 # st.image("https://github.com/mrobleto/DataMiningFinalProject/raw/main/stockpic.jpg", width=250) # Add your logo URL here
-# st.title("Ursula's & Marisabel's Your Travel Experts: All You Need to Know!")
-# st.write("Enter your travel-related question, upload a PDF for summarization, or provide a YouTube link for summarization.")
+# st.title("Ursula & Marisabel Your Travel Experts: All You Need to Know!")
 
     # Input box for the user to enter a travel question or description
     description = st.text_area("Your Travel Question or Description and click 'Get Travel Answer' below", placeholder="Describe your travel question or request")
