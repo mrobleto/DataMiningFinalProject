@@ -122,7 +122,7 @@ with col1:
 with col2:
     # Use HTML and Markdown for custom styling
     st.markdown(
-    "<h1 style='color:#e8f3f1;'>Ursula & Marisabel Your Travel Experts: All You Need to Know!</h1>",
+    "<h1 style='color:#4BAFA1;'>Ursula & Marisabel Your Travel Experts: All You Need to Know!</h1>",
     unsafe_allow_html=True
 )
     # st.title("Ursula & Marisabel Your Travel Experts: All You Need to Know!")
