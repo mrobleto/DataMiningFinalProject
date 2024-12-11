@@ -116,7 +116,7 @@ col1, col2 = st.columns([1, 4])  # Adjust column ratios as needed
 
 # Add the logo in the first column
 with col1:
-    st.image("https://github.com/mrobleto/DataMiningFinalProject/raw/main/stockpic.jpg", width=200)
+    st.image("https://github.com/mrobleto/DataMiningFinalProject/raw/main/stockpic.jpg", width=250)
 
 # Add main app content in the second column
 with col2:
@@ -124,14 +124,12 @@ with col2:
     st.markdown(
     """
     <h1 style='color:#4BAFA1;'>Ursula & Marisabel Your Travel Experts:</h1>
-    <h1 style='color:#4BAFA1;'>All You Need to Know! 💫</h1>""",
+    <h2 style='color:#4BAFA1;'>All You Need to Know! 💫</h2>""",
     unsafe_allow_html=True
 )
     # st.title("Ursula & Marisabel Your Travel Experts: All You Need to Know!")
     st.write("Enter your travel-related question, upload a PDF for summarization, or provide a YouTube link for summarization.")
-
-# st.image("https://github.com/mrobleto/DataMiningFinalProject/raw/main/stockpic.jpg", width=250) # Add your logo URL here
-# st.title("Ursula & Marisabel Your Travel Experts: All You Need to Know!")
+    # st.title("Ursula & Marisabel Your Travel Experts: All You Need to Know!")
 
     # Input box for the user to enter a travel question or description
     description = st.text_area("Your Travel Question or Description and click 'Get Travel Answer' below", placeholder="Describe your travel question or request")
