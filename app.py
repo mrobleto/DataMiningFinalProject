@@ -120,8 +120,14 @@ with col1:
 
 # Add main app content in the second column
 with col2:
-    st.title("Ursula's & Marisabel's Your Travel Experts: All You Need to Know!")
+    # Use HTML and Markdown for custom styling
+    st.markdown(
+    "<h1 style='color:#00f900;'>Ursula & Marisabel Your Travel Experts: All You Need to Know!</h1>",
+    unsafe_allow_html=True
+)
+    # st.title("Ursula & Marisabel Your Travel Experts: All You Need to Know!")
     st.write("Enter your travel-related question, upload a PDF for summarization, or provide a YouTube link for summarization.")
+
 # st.image("https://github.com/mrobleto/DataMiningFinalProject/raw/main/stockpic.jpg", width=250) # Add your logo URL here
 # st.title("Ursula's & Marisabel's Your Travel Experts: All You Need to Know!")
 # st.write("Enter your travel-related question, upload a PDF for summarization, or provide a YouTube link for summarization.")
